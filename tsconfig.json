@@ -19,11 +19,11 @@
 			"./node_modules/@types",
 			"./node_modules/@figma"
 		],
-		"target": "es2021",
+		"target": "ESNext",
 		"jsx": "react",
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
-		"module": "es2022",
+		"module": "ES2022",
 		"moduleResolution": "node",
 		"noEmit": true,
 		"noEmitOnError": true,

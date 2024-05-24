@@ -93,7 +93,12 @@ export async function importTokens(files: Record<string, JsonTokenDocument>, man
 			for (const filename of modeFilenames) {
 				const document = files[filename]
 				if (document) {
-					for (const [name, token] of allTokenNodes(document)) {
+					const collator = new Intl.Collator("en-US", {
+						numeric: true,
+						usage: "sort",
+					})
+					const sortedTokens = [...allTokenNodes(document)].toSorted(([nameA], [nameB]) => collator.compare(nameA, nameB))
+					for (const [name, token] of sortedTokens) {
 						queuedUpdates.push({ figmaName: tokenNameToFigmaName(name), collectionName, modeName, token })
 					}
 				} else {
@@ -238,12 +243,19 @@ export async function importTokens(files: Record<string, JsonTokenDocument>, man
 
 			// Important: This syntax is a hack specific to this plugin and is not a part of the standard or Figma plans.
 			// Also, the scopes property is not available for strings and booleans.
+			const figmaExtensions = update.token.$extensions ? update.token.$extensions["com.figma"] : {}
+			console.log(figmaExtensions)
 			if (variable.resolvedType === "COLOR" || variable.resolvedType === "FLOAT") {
-				if (update.token.$extensions && update.token.$extensions["com.figma"] && update.token.$extensions["com.figma"].scopes) {
-					variable.scopes = update.token.$extensions["com.figma"].scopes
+				if (figmaExtensions.scopes) {
+					variable.scopes = figmaExtensions.scopes
 				} else {
 					variable.scopes = variable.scopes || ["ALL_SCOPES"]
 				}
+			}
+
+			const cssSyntax = figmaExtensions.cssSyntax
+			if (cssSyntax) {
+				variable.setVariableCodeSyntax("WEB", cssSyntax)
 			}
 
 			// Any time we successfully make any updates, we need to loop again unless we completely finish.

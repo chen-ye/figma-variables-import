@@ -52,7 +52,7 @@ module.exports = (env, argv) => ({
 	},
 
 	plugins: [
-		new webpack.NoEmitOnErrorsPlugin(),
+		// new webpack.NoEmitOnErrorsPlugin(),
 
 		new HtmlWebpackPlugin({
 			inject: false, // Don't inject a <script> tag because index.html already includes one

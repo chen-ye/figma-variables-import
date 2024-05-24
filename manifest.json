@@ -1,9 +1,18 @@
 {
-	"name": "Variables Import",
-	"id": "1253424530216967528",
-	"api": "1.0.0",
-	"permissions": ["teamlibrary"],
+  "name": "Variables Import (cye)",
+  "id": "1375959754588920430",
+  "api": "1.0.0",
 	"main": "build/controller.js",
 	"ui": "build/ui.html",
-	"editorType": ["figma"]
+  "permissions": ["teamlibrary"],
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": [
+    "figma"
+  ],
+  "networkAccess": {
+    "allowedDomains": [
+      "none"
+    ]
+  }
 }
